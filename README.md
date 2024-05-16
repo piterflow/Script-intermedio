@@ -1,86 +1,51 @@
-[![bashf.jpg](https://i.postimg.cc/cHwn3gQL/bashf.jpg)](https://postimg.cc/qhBqV7bP)
-# Script-intermedio
+<!--Encabezado (Header)-->
 
-### Ejercicio 1.
-Realiza un script llamado comprobarApache.sh, que compruebe cada minuto si el
-servicio apache2 está activo (running).
-Si está parado, entonces:
+# TITULO DEL PROYECTO
 
-1.- Introduce una línea: “Error-Apache: Fecha y hora actual” en /root/ApacheError.tmp,
-donde FechaActual, representa día, mes, año, hora y minuto.
+<!---PORTADA->
+<!--PARA GENERAR ENLACE A UNA IMAGEN-->
+![imagen de portada](https://media.dev.to/cdn-cgi/image/width=1600,height=900,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5hhrcbgvutmdmducqkek.png "BASH LOGO")
 
-2.- Reinicia el servicio apache2
-Para comprobarlo, para el servicio. Ejecuta el script en segundo plano y observa si lo
-reinicia y crea el archivo.
+<!--INDICE-->
 
-3.- Además del script, crea una tarea programada, de forma que ese script se ejecute cada
-6 horas, todos los días. Y si el ordenador está apagado, se debe ejecutar la próxima vez
-que se inicie, transcurrido cinco minutos.
+### INDICE
 
-<hr>
+<!--CONTENIDO-->
 
-### Ejercicio2.
+### CONTENIDO 
 
-Realiza un script llamado usuariosBloqueados.sh, que nos muestre un menú:
-1.- Usuarios Bloqueados.
-2.- Bloquear un usuario.
-3.- Desbloquear usuario.
-4.- Cerrar sesión usuario
-5.- Salir
-Cada opción del menú corresponde con una función.
+<!--ENLACES--> 
+* EJEMPLO [facebook.com](www.facebook.com "TITULO")
+> Esto es una cita
 
-UsuariosBloqueados → nos muestra en pantalla los usuarios (uid>1000 y <2000) que
-tengan la cuenta bloqueada.
+<!--LINEAS DIVISORIAS-->
+---
+___
 
-BloquearUsuario → Nos pregunta el nombre de un usuario y lo bloqueamos.
+<!--PARA COLODAR CÓDIGO-->
+`fechactual=$(date)`
 
-DesbloquearUsuario → Nos pregunta el nombre de un usuario y lo desbloqueamos.
+<!--COLOCAR UN BLOQUE DE CÓDIGO-->
+``` bash
+echo "Aquí copiamos el código"
 
-CerrarSesion → Nos pregunta el nombre de un usuario, y si el usuario lleva más de 30
-minutos (1800 seg) sin actividad, se le cierra la sesión.
-<br>
-<hr>
+fechactual=$(date)
+```
 
-### Ejercicio 3.
-
-Realiza un script llamado crearBorrarUsuarios.sh, que nos muestre un menú:
-<br>
-1.- Crear Usuarios.
-<br>
-2.- Borrar Usuarios.
-<br>
-3.- Salir
-<br>
-<br>
-CrearUsuarios → Crea de forma masiva usuarios almacenados en el fichero 
-/root/usuarios.csv
-<br>
-<br>
-[![usuarios.png](https://i.postimg.cc/T3BjWXZQ/usuarios.png)](https://postimg.cc/18cVLbRN) 
-<br>
-<br>
-Los campos son los siguientes:
-- El campo 1 representa el nombre de usuario.
-
-- 
-- El campo 2 representa la contraseña.
+<!--PARA CREAR TABLAS-->
+| PRIMER ESCRIPT | TITULO |
+|----------------|--------|
+| ejercicio 1 |Resultado|
+|||
 
 
-- El campo 3 representa el nombre.
+<!--PARA INDICAR QUE LAS TAREAS HAN SIDO COMPERADA EN CODIGO DE GITHUB-->
+* [X] Ejercicio 1
+* [X] Ejercicio 2
+* [X] Ejercicio 3
+* [X] Ejercicio 4
+* [X] Ejercicio 5
 
+<!--BIBIOGRAFÍA-->
 
-- El campo 4 representa su primer apellido.
-
-
-- El campo 5 representa su correo electrónico.
-
-
-Además, queremos que esas cuentas queden inactivas el 30 de junio de 2024.
-BorrarUsuarios → Borra de forma masiva usuarios almacenados en el fichero
-/root/usuarios.csv.
-
-<hr>
-
-### Ejercicio 4.
-
-
+<!--CONCLUCIÓN-->
