@@ -21,7 +21,9 @@
 
     5.[Ejercicio5](#Ejercicio5)
 
-2. CONCLUCIONES
+2. BIBIOGRAFÍA
+
+3. CONCLUCIONES
 ---
 <!--CONTENIDO-->
 
@@ -92,7 +94,91 @@ done
 
 #### Ejercicio2.
 
-*En realización de este ejercicio no hemos tenido mucha dificultad*
+*La realización de este ejercicio no hemos tenido mucha dificultad*
+
+```bash
+#!/bin/bash
+# Author: David R. , Ivana S. , Andrés R.
+# Versión: 1.0
+# Fecha: 18/04/2024
+# Descripción: Este script nos permite administrar usuarios (ver usuarios bloqueados, bloquear usuario, desbloquear usuario o cerrar la sesión de un usuario).
+clear
+
+##Parámetros/Variables
+
+
+##Funciones
+tuSerRoot()
+{
+    if [ `id -u` != 0 ]; then
+        echo "Este script solo puede ser ejecutado por el root."
+        exit 1
+    fi
+}
+
+# Función para mostrar usuarios bloqueados
+mostrarUsuariosBloqueados()
+{
+    echo ""
+    awk -F: '$3 == "locked" && $1 > 1000 && $1 < 2000 { print $1 }' /etc/passwd
+}
+
+# Función para bloquear un usuario
+bloquearUsuario()
+{
+    echo ""
+    read -p "Introduce el nombre del usuario: " usuario
+    usermod -L $usuario
+}
+
+# Función para desbloquear un usuario
+desbloquearUsuario()
+{
+    echo ""
+    read -p "Introduce el nombre del usuario: " usuario
+    usermod -U $usuario
+}
+
+# Función para cerrar la sesión de un usuario inactivo
+cerrarSesionUsuario()
+{
+    echo ""
+    read -p "Introduce el nombre del usuario: " usuario
+    tiempoInactivo=$(who -u $usuario | awk '{print $2}')
+
+    if [ $tiempoInactivo -gt 1800 ]; then
+        pkill -KILL -u $usuario
+        echo "\nSesión cerrada para $usuario"
+    else
+        echo "\nEl usuario $usuario no lleva más de 30 minutos inactivo."
+    fi
+}
+
+
+##Bloque principal
+tuSerRoot
+# Mostrar menú y ejecutar la opción seleccionada
+while [ true ]; do
+    echo "Menú principal"
+    echo "==============="
+    echo "1. Usuarios Bloqueados"
+    echo "2. Bloquear un usuario"
+    echo "3. Desbloquear usuario"
+    echo "4. Cerrar sesión usuario"
+    echo "5. Salir"
+    echo ""
+    read -p "Selecciona una opción: " opcion
+
+    case $opcion in
+        1) mostrarUsuariosBloqueados ;;
+        2) bloquearUsuario ;;
+        3) desbloquearUsuario ;;
+        4) cerrarSesionUsuario ;;
+        5) exit 0;;
+        *) clear && echo "Opción no válida\n";;
+    esac
+done
+```
 
 ---
 
@@ -144,11 +230,65 @@ borrarUsuarios
 ---
 #### Ejercicio4.
 
-*En realización de este ejercicio no hemos tenido mucha dificultad*
+*La realización de este ejercicio no hemos tenido mucha dificultad*
+
+```bash
+#!/bin/bash
+# Author: David R. , Ivana S. , Andrés R.
+# Versión: 1.0
+# Fecha: 18/04/2024
+# Descripción: Este script crea usuarios masivamente indicando un nombre genérico y la cantidad total de usuarios que se quieren crear.
+clear
+
+##Parámetros/Variables
+fechaActual=$(date +%d_%m_%Y-%H:%M)
+i=1
+nombre="$1"
+cantTotal="$2"
+cantTotal=$(($cantTotal+1))
+
+##Funciones
+tuSerRoot()
+{
+    if [ `id -u` != 0 ]; then
+        echo "Este script solo puede ser ejecutado por el root."
+        exit 1
+    fi
+}
+mostrarAyuda() {
+    echo ""
+    echo "Número de argumentos incorrecto."
+    echo "Uso: sh $0 <nombre genérico> <numero de usuarios a crear>"
+    echo "Ejemplo: sh $0 usuario 3; usuario1, usuario2, usuario3"
+    echo ""
+    exit 1
+}
+comprobarArgumentos()
+{
+    if [ "$#" -ne "2" ]; then
+        mostrarAyuda
+	fi
+}
+
+##Bloque principal
+tuSerRoot
+comprobarArgumentos $@
+
+until [ $i = $cantTotal ]; do
+    #useradd -f -m -s /bin/bash -f 0 $(mkpasswd -m sha-512 $1$i) $1$i > /dev/null 2>&1
+    echo "Creando usuario '$1$i'..."
+    echo $1$i >> usuarios.tmp
+    usuarios=$(cat usuarios.tmp | grep -v / | sort | paste -sd ':')
+    i=$(($i+1))
+done
+
+rm usuarios.tmp
+echo "\n"
+echo "Usuarios añadidos\n------------------\n$usuarios" > usuariosCreados-$fechaActual.tmp
+cat usuariosCreados-$fechaActual.tmp
+```
 
 ---
-
-#### Ejercicio5.
 
 
 #### Ejercicio5.
@@ -242,6 +382,16 @@ principal() {
 principal
 ```
 ---
+<!--BIBIOGRAFÍA-->
+#### BIBIOGRAFÍA
+* [www.geekland.eu/](https://geekland.eu/solucion-a-que-un-script-no-se-ejecuta-en-cron-pero-si-en-la-terminal/ "ENLACE")
+
+* [https://help.dreamhost.com/hc/es](https://help.dreamhost.com/hc/es/articles/360038608892-Soluci%C3%B3n-de-problemas-de-Cron-jobs "ENLACE")
+
+* [https://www.linuxtotal.com.mx/](https://www.linuxtotal.com.mx/index.php?cont=info_admon_018 "ENLACE")
+
+* [https://www.redeszone.net/](https://www.redeszone.net/tutoriales/servidores/cron-crontab-linux-programar-tareas/ "ENLACE")
+
 <!--CONCLUCIÓN-->
 #### CONCLUCIONES
 
