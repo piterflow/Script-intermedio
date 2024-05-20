@@ -392,6 +392,8 @@ principal
 
 * [https://www.redeszone.net/](https://www.redeszone.net/tutoriales/servidores/cron-crontab-linux-programar-tareas/ "ENLACE")
 
+* [chatgpt.com](https://chatgpt.com/?oai-dm=1 "ENLACE")
+
 <!--CONCLUCIÓN-->
 #### CONCLUCIONES
 
