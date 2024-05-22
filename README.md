@@ -84,7 +84,132 @@ que se inicie, transcurrido cinco minutos.
 
 ###### DESARROLLO
 
+Explicación de todas las partes del script.
+
+En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los autores, la versión y la descripción de lo que hace el script.
+
+[![Cabecera.png](https://i.postimg.cc/0y4Qnvns/Cabecera.png)](https://postimg.cc/Xrw4NTtH)
+
+Para que el script se pueda ejecutar, debe ser ejecutado por el usuario **/root**. Si no se es el usuario administrador, aparecerá un mensaje de denegación.
+
+> función comprobar usuario /root
+
+[![tuser-Root.png](https://i.postimg.cc/GpS597bz/tuser-Root.png)](https://postimg.cc/v1fzNvg6)
+
+Vemos que no ha sido ejecutado por el /root y nos muestra un  mensaje por pantalla.
+
+> Mensaje de *Permiso denegado*
+
+[![denegar-Permiso.png](https://i.postimg.cc/SQwjckZb/denegar-Permiso.png)](https://postimg.cc/4nQJgkkW)
+
+
+> Función para comprobar si apache2 está activo
+
+La función **apacheActivo()** comprueba el estado del servidor con `systemctl status apache2`. En caso de estar **inactive**, nos redirige el error.
+
+[![apache-Activo.png](https://i.postimg.cc/WzsWHQ8N/apache-Activo.png)](https://postimg.cc/G8SxBg6V)
+
+> Función para reiniciar apache2
+
+En caso de que Apache no esté activo, la función **reiniciarApache()** creará el archivo y redireccionará el error a */root/ApacheError.tmp*. Luego, levantará el servicio con `systemctl restart apache2`.
+
+[![reiniciar-Apache.png](https://i.postimg.cc/7hb7h9Y1/reiniciar-Apache.png)](https://postimg.cc/bScdFQnd)
+
+> Función para comprobar si Apache está activo cada minuto.
+
+La función **comprobarApache()** consiste en un bucle que verifica cada 60 segundos si apache2 está activo o no. En caso de que no lo esté, llama a la función **reiniciarApache** para activarlo de nuevo.
+
+[![bucle.png](https://i.postimg.cc/Cx4jvztq/bucle.png)](https://postimg.cc/jDLw2dRx)
+
+> Bloque principal
+
+En el bloque principal, llamamos a la función `TuSerRoot()`, que comprueba si el usuario es superusuario o no. Para que aparezca en pantalla el mensaje *Apache corriendo correctamente*, en caso de que esté *inactive* (Apache inactivo. Reiniciando Apache) y una vez reiniciado (Apache reiniciado correctamente). Utilizamos la función `comprobarApache &` (se ejecuta en segundo plano).
+
+[![Bloque-Principal.png](https://i.postimg.cc/2S47WHrr/Bloque-Principal.png)](https://postimg.cc/gx2hFHxT)
+
+> CONTRAB
+
+El archivo donde se configuran las tareas programadas en Linux es **crontab**. Para que el script se ejecute cada 6 horas, se debe indicar en el archivo `/etc/crontab`.
+
+[![crontab.png](https://i.postimg.cc/k4kmkMZQ/crontab.png)](https://postimg.cc/sQ9qWz3x)
+
+> ANACRONTAB
+
+Para que el script se ejecute una vez encendido, 5 minutos después, tenemos que poner las instrucciones en el **anacrontab**.
+
+[![anacrontab.png](https://i.postimg.cc/1X5G1Pqz/anacrontab.png)](https://postimg.cc/0MFM7TZg)
+
 ###### RESULTADO
+Compronamos el correcto funcionamiento del script.
+
+> Paramos el servicio apache2 con `systemctl stop apache2` y ejecutamos `systemctl status apache2` para comprobar que está inactive.
+
+[![stop-Apache.png](https://i.postimg.cc/sXBm07t2/stop-Apache.png)](https://postimg.cc/HcgbrcWG)
+
+> Ejecutamos el script `./comprobarApache.sh` y nos muestra el menjase que nos indica que está corriendo el servicio apache.
+
+[![ejecutar-Apache.png](https://i.postimg.cc/J0Nb9qKR/ejecutar-Apache.png)](https://postimg.cc/n9Ljmq6W)
+
+> * Código del script
+
+```bash
+#!/bin/bash
+# Author: David R. , Ivana S. , Andrés R.
+# Versión: 2.0
+# Fecha: 22/04/2024
+# Descripción: Este script comprueba cada minuto si Apache está activo
+
+# Función para comprobar que el script se ejecuta como administrador
+tuSerRoot()
+{
+    if [ $(id -u) != 0 ]; then
+      echo "Este script solo puede ser ejecutado por el root."
+      exit 1
+    fi
+}
+
+# Función para comprobar si Apache2 está activo
+apacheActivo() {
+  systemctl status apache2 | grep "active (running)" > /dev/null
+  return $?
+}
+
+# Función para registrar error y reiniciar Apache2
+reiniciarApache() {
+  fechaActual=$(date +%Y-%m-%d-%H-%M)
+  echo "Error-Apache: $fechaActual" >> /root/ApacheError.tmp
+  systemctl restart apache2
+}
+
+comprobarApache() {
+  # Comprobar cada minuto si Apache2 está activo
+    while [ true ]; do
+      apacheActivo
+      if [ $? -eq 1 ]; then
+        reiniciarApache
+      fi
+      sleep 60
+    done
+}
+
+##Bloque principal
+clear
+tuSerRoot
+
+systemctl status apache2 | grep "active (running)" > /dev/null
+if [ $? -eq 0 ]; then
+  echo "Apache corriendo correctamente."
+fi
+
+systemctl status apache2 | grep "inactive (dead)" > /dev/null
+if [ $? -eq 0 ]; then
+  echo "Apache inactivo. Reiniciando Apache..." && sleep 3
+  echo "Apache reiniciado correctamente."
+fi
+
+comprobarApache &
+
+```
 
 ---
 
