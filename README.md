@@ -50,7 +50,7 @@
 
     5.[ Ejercicio5](#Ejercicio5)
 
-   * [5.1ENUNCIADO](#ENUNCIADO)
+   * [ENUNCIADO](#ENUNCIADO)
 
    * [DESARROLLO](#DESARROLLO)
        
