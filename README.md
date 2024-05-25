@@ -67,6 +67,8 @@
 
 #### Ejercicio1.
 
+###### ENUNCIADO
+
 Realiza un script llamado comprobarApache.sh, que compruebe cada minuto si el servicio apache2 está activo (running).
 
 Si está parado, entonces:
@@ -215,6 +217,9 @@ comprobarApache &
 ---
 
 #### Ejercicio2.
+
+###### ENUNCIADO
+
 Realiza un script llamado usuariosBloqueados.sh, que nos muestre un menú:
 
 1.- Usuarios Bloqueados.
@@ -247,6 +252,8 @@ Realiza un script llamado usuariosBloqueados.sh, que nos muestre un menú:
 
 
 #### Ejercicio3.
+
+###### ENUNCIADO
 
 Realiza un script llamado crearBorrarUsuarios.sh, que nos muestre un menú:
 
@@ -433,6 +440,8 @@ menu
 
 #### Ejercicio4.
 
+###### ENUNCIADO
+
 Crea en un script llamado crearUsuarios.sh que permita crear usuarios de forma automática. Indicaciones: 
 1.- Al script se le pasa dos parámetros:
 
@@ -447,6 +456,12 @@ Explicación de todas las partes del script.
 En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los autores, la versión y la descripción de lo que hace el script.
 
 [![encabezado.png](https://i.postimg.cc/VLDk1BG9/encabezado.png)](https://postimg.cc/MvfSmR8X)
+
+Para que el script pueda ejecutarse, debe ser ejecutado por el usuario /root . Si no se es el usuario administrador, aparecerá un mensaje de denegación.
+
+> Función comprobar root
+
+[![tu-Ser-Root.png](https://i.postimg.cc/mr86dk8S/tu-Ser-Root.png)](https://postimg.cc/6740qWs7)
 
 Con esta función mostramos en pantalla la sintaxis de cómo se deben introducir los datos.
 
@@ -470,7 +485,7 @@ La función validarNumero se encarga de limitar la creación de usuarios cuando 
 
 > Función  validar número
 
-[validar-Numero.png](https://postimg.cc/34wgs3Kf)
+[![validar-Numero.png](https://i.postimg.cc/G2Fqsp6R/validar-Numero.png)](https://postimg.cc/34wgs3Kf)
 
 Cuando se crea un usuario, se le asigna una contraseña inicial que es igual a su nombre.
 
@@ -580,6 +595,8 @@ usuarios="" # Inicializar la variable usuarios
 
 #### Ejercicio5.
 
+###### ENUNCIADO
+
 Partimos de que tenemos varios usuarios: usuario1, usuario2, usuario3. 
 
 Al usuario1, se le ha establecido una cuota de disco: 40k y 100K (soft y hard respectivamente).
@@ -588,9 +605,91 @@ Realiza un script llamado cuotasUsuarios.sh, que nos copie la cuota del usuario1
 
 ###### DESARROLLO
 
+Explicación de todas las partes del script.
+
+En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los autores, la versión y la descripción de lo que hace el script.
+
+[![encabezado.png](https://i.postimg.cc/RCXVcL73/encabezado.png)](https://postimg.cc/3W0Thpb7)
+
+Para que el script pueda ejecutarse, debe ser ejecutado por el usuario /root . Si no se es el usuario administrador, aparecerá un mensaje de denegación.
+
+[![tu-Ser-Root.png](https://i.postimg.cc/PqVnCSsh/tu-Ser-Root.png)](https://postimg.cc/JyX2gczd)
+
+Ahora, con la función para establecer cuotas, vamos a asignarles a las variables el parámetro que deben tener, que será lo que introduciremos.
+
+> Función establecer cuotas
+
+[![establecer-Cuotas.png](https://i.postimg.cc/bwY511Rv/establecer-Cuotas.png)](https://postimg.cc/Ln7vpYwd)
+
+(Descripción)
+
+> Función principal
+
+[![principal.png](https://i.postimg.cc/XJ51nLns/principal.png)](https://postimg.cc/hzS1r9zm)
+
 ###### RESULTADO
 
+```bash
+# Author: David R. , Ivana S. , Andrés R.
+# Versión: 1.0
+# Fecha: 12/05/2024
+# Descripción: Este script establece las cuotas a los usuario de nombre usuario
+clear
+
+##Parámetros/Variables
+
+##Funciones
+
+#Entrar como usuario
+tuSerRoot()
+{
+	if [ `id -u` != 0 ]; then
+        	echo "Este script solo puede ser ejecutado por el root."
+        	exit 1
+    	fi
+}
+
+#Establecemos las cuotas a los usuarios
+establecerCuotas()
+{
+usuario="$1"
+limiteSoft="$2"
+limiteHard="$3"
+	# Establecer la cuota utilizando edquota con los límites directamente
+	edquota -u "$usuario" "${limiteSoft}" "${limiteHard}"
+}
+# Función principal del script
+principal() {
+    # Definir las cuotas del usuario1 
+     usuario1="usuario1"
+     limiteSoft=40
+     limiteHard=100
+
+    # Obtener la lista de usuarios con uid entre 1000 y 2000
+     usuarios=$(cat /etc/passwd | awk -F: '{print $1}' | grep "usuario*")
+
+    # Iterar sobre cada usuario encontrado
+    for usuario in $usuarios
+    do
+        # Establecer la cuota para cada usuario
+        establecerCuotas "$usuario" "$limiteSoft" "$limiteHard"
+
+        # Mostrar un mensaje indicando que se estableció la cuota
+        echo "Cuota establecida para $usuario: soft = $limiteSoft KB, hard = $limiteHard KB"
+    done
+
+    # Mostrar mensaje al finalizar
+    echo "Proceso completado."
+}
+
+# Llamar a la función principal del script
+
+principal
+
+```
+
 ---
+
 <!--BIBIOGRAFÍA-->
 
 #### BIBIOGRAFÍA
