@@ -615,17 +615,24 @@ Para que el script pueda ejecutarse, debe ser ejecutado por el usuario /root . S
 
 [![tu-Ser-Root.png](https://i.postimg.cc/PqVnCSsh/tu-Ser-Root.png)](https://postimg.cc/JyX2gczd)
 
-Ahora, con la función para establecer cuotas, vamos a asignarles a las variables el parámetro que deben tener, que será lo que introduciremos.
+Ahora, con la función para establecer cuotas, vamos a asignarles a las variables el parámetro que deben tener, que será lo que introduciremos. 
+
 
 > Función establecer cuotas
 
 [![establecer-Cuotas.png](https://i.postimg.cc/bwY511Rv/establecer-Cuotas.png)](https://postimg.cc/Ln7vpYwd)
 
-(Descripción)
-
+La función principal del script es la de definir las cuotas. En este caso, se establece un rango de cuotas en el que el UID (el campo 3),  esté entre los valores de 1000 y 2000, dándonos como resultado el nombre de los usuarios que se llamen usuarios. 
+Posteriormente se estableceran los límtes de soft y de hard, que ya se habían indicado anteriormente en 40 y 100 respectivamente.
 > Función principal
 
 [![principal.png](https://i.postimg.cc/XJ51nLns/principal.png)](https://postimg.cc/hzS1r9zm)
+
+> Problema
+
+A la hora de ejedcuar el script, nos encontramos con un problema: se establecían las cuotas a todos los usuarios con el UID entre 1000 y 2000 del root, no sólo a los llamados usuarios (que es lo que nos pedía el enunciado). Esto era debido a que la orden que pusimos en un principio en el script para obtener esta lista fue la siguiente:
+local usuarios=$(awk -F '($3 >= 1000 && $3 < 2000) {print $1}' /etc/passwd), y no funcionaba.
+Ante esto, la tuvimos que cambiar especificando, esta vez, el nombre de los usuarios que queríamos, buscando en el campo correspondiente del archivo passwd (el primero). Quedando tal y como se observa en el script.
 
 ###### RESULTADO
 
