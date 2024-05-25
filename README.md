@@ -597,7 +597,7 @@ usuarios="" # Inicializar la variable usuarios
 
 ###### ENUNCIADO
 
-Partimos de que tenemos varios usuarios: usuario1, usuario2, usuario3. 
+Partimos de la base que tenemos varios usuarios: usuario1, usuario2, usuario3. 
 
 Al usuario1, se le ha establecido una cuota de disco: 40k y 100K (soft y hard respectivamente).
 
@@ -615,16 +615,11 @@ Para que el script pueda ejecutarse, debe ser ejecutado por el usuario /root . S
 
 [![tu-Ser-Root.png](https://i.postimg.cc/PqVnCSsh/tu-Ser-Root.png)](https://postimg.cc/JyX2gczd)
 
-Ahora, con la función para establecer cuotas, vamos a asignarles a las variables el parámetro que deben tener, que será lo que introduciremos. 
+La función 'establecerCuotas' toma tres argumentos: el nombre de usuario y los límites soft y hard de la cuota de disco. Utilizando el comando 'edquota' para implantar estas cuotas para el usuario especificado.
 
+[![establecer-Cuotas.png](https://i.postimg.cc/bwY511Rv/establecer-Cuotas.png)](https://postimg.cc/Ln7vpYwd) 
 
-> Función establecer cuotas
-
-[![establecer-Cuotas.png](https://i.postimg.cc/bwY511Rv/establecer-Cuotas.png)](https://postimg.cc/Ln7vpYwd)
-
-La función principal del script es la de definir las cuotas. En este caso, se establece un rango de cuotas en el que el UID (el campo 3),  esté entre los valores de 1000 y 2000, dándonos como resultado el nombre de los usuarios que se llamen usuarios. 
-Posteriormente se estableceran los límtes de soft y de hard, que ya se habían indicado anteriormente en 40 y 100 respectivamente.
-> Función principal
+En la función principal observamos que se definen las cuotas para un usuario específico ('usuario1'), con un límite soft de 40 KB y un límite hard de 100 KB. Posteriormente, a través del comando cat, obtendremos una lista de usuarios cuyo nombre es "usuario", a los cuales se les establecerán las cuotas anteriormente indicadas. Corroborándose todo con el mensaje de que han sido establecidas.
 
 [![principal.png](https://i.postimg.cc/XJ51nLns/principal.png)](https://postimg.cc/hzS1r9zm)
 
@@ -632,9 +627,24 @@ Posteriormente se estableceran los límtes de soft y de hard, que ya se habían 
 
 A la hora de ejedcuar el script, nos encontramos con un problema: se establecían las cuotas a todos los usuarios con el UID entre 1000 y 2000 del root, no sólo a los llamados usuarios (que es lo que nos pedía el enunciado). Esto era debido a que la orden que pusimos en un principio en el script para obtener esta lista fue la siguiente:
 local usuarios=$(awk -F '($3 >= 1000 && $3 < 2000) {print $1}' /etc/passwd), y no funcionaba.
-Ante esto, la tuvimos que cambiar especificando, esta vez, el nombre de los usuarios que queríamos, buscando en el campo correspondiente del archivo passwd (el primero). Quedando tal y como se observa en el script.
+Ante esto, la tuvimos que cambiar especificando, esta vez, el nombre de los usuarios que queríamos, buscando en el campo correspondiente del archivo passwd (el primero). Quedando tal y como se observa en el código.
 
 ###### RESULTADO
+
+Primero se estableceremos las cuotas al usuario usuario1 con el comando edquota -u 1 en usuariol root. Observaremos este cambio con repquota -u | grep alumno1.
+
+[![Ejecucion1.png](https://i.postimg.cc/HLnzshNp/Ejecucion1.png)](https://postimg.cc/5HcLsn1G)
+[![Ejecucion2.png](https://i.postimg.cc/HLbwx121/Ejecucion2.png)](https://postimg.cc/GBh87NVX)
+
+Seguidamente se establecerán las cuaotas a los siguientes dos usuarios con el mismo nombre. 
+
+[![Ejecucion3.png](https://i.postimg.cc/5038B5TP/Ejecucion3.png)](https://postimg.cc/cgvKZ3sY)
+[![Ejecucion4.png](https://i.postimg.cc/zfYh4P1t/Ejecucion4.png)](https://postimg.cc/75Xb29h0)
+
+Finalmente, nos dará el resultado  de una lista con los usuarios que coinciden con los tres parámetros solicitados: nombre de "usuario", soft 40 KB y hard 100 KB. 
+
+[![Resultado.png](https://i.postimg.cc/WpYks4vJ/Resultado.png)](https://postimg.cc/0rmQfPr8)
+
 
 ```bash
 # Author: David R. , Ivana S. , Andrés R.
