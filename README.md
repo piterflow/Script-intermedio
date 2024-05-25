@@ -15,46 +15,46 @@
 
    1.[Ejercicio1](#Ejercicio1)
       
-   * [ENUNCIADO](#ENUNCIADO)
+   * ENUNCIADO
 
-   * [DESARROLLO](#DESARROLLO)
+   * DESARROLLO
        
-   * [RESULTADO](#RESULTADO)
+   * RESULTADO
 
     2.[ Ejercicio2](#Ejercicio2)
 
-   * [ENUNCIADO](#ENUNCIADO)
+   * ENUNCIADO
 
-   * [DESARROLLO](#DESARROLLO)
+   * DESARROLLO
        
-   * [RESULTADO](#RESULTADO)
+   * RESULTADO
 
 
     3.[ Ejercicio3](#Ejercicio3)
 
-   * [ENUNCIADO](#ENUNCIADO)
+   * ENUNCIADO
 
-   * [DESARROLLO](#DESARROLLO)
+   * DESARROLLO
        
-   * [RESULTADO](#RESULTADO)
+   * RESULTADO
 
 
     4.[ Ejercicio4](#Ejercicio4)
 
-   * [ENUNCIADO](#ENUNCIADO)
+   * ENUNCIADO
 
-   * [DESARROLLO](#DESARROLLO)
+   * DESARROLLO
        
-   * [RESULTADO](#RESULTADO)
+   * RESULTADO
 
 
     5.[ Ejercicio5](#Ejercicio5)
 
-   * [ENUNCIADO](#ENUNCIADO)
+   * ENUNCIADO
 
-   * [DESARROLLO](#DESARROLLO)
+   * DESARROLLO
        
-   * [RESULTADO](#RESULTADO)
+   * RESULTADO
 
 
 2. [BIBIOGRAFÍA](#BIBIOGRAFÍA)
@@ -82,7 +82,7 @@ reinicia y crea el archivo.
 6 horas, todos los días. Y si el ordenador está apagado, se debe ejecutar la próxima vez 
 que se inicie, transcurrido cinco minutos. 
 
-###### DESARROLLO
+##### DESARROLLO
 
 Explicación de todas las partes del script.
 
@@ -92,7 +92,7 @@ En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los
 
 Para que el script se pueda ejecutar, debe ser ejecutado por el usuario **/root**. Si no se es el usuario administrador, aparecerá un mensaje de denegación.
 
-> función comprobar usuario /root
+> Función comprobar usuario /root
 
 [![tuser-Root.png](https://i.postimg.cc/GpS597bz/tuser-Root.png)](https://postimg.cc/v1fzNvg6)
 
@@ -121,7 +121,8 @@ La función **comprobarApache()** consiste en un bucle que verifica cada 60 segu
 
 [![bucle.png](https://i.postimg.cc/Cx4jvztq/bucle.png)](https://postimg.cc/jDLw2dRx)
 
-> Bloque principal
+
+> Bloque princial
 
 En el bloque principal, llamamos a la función `TuSerRoot()`, que comprueba si el usuario es superusuario o no. Para que aparezca en pantalla el mensaje *Apache corriendo correctamente*, en caso de que esté *inactive* (Apache inactivo. Reiniciando Apache) y una vez reiniciado (Apache reiniciado correctamente). Utilizamos la función `comprobarApache &` (se ejecuta en segundo plano).
 
@@ -139,7 +140,7 @@ Para que el script se ejecute una vez encendido, 5 minutos después, tenemos que
 
 [![anacrontab.png](https://i.postimg.cc/1X5G1Pqz/anacrontab.png)](https://postimg.cc/0MFM7TZg)
 
-###### RESULTADO
+##### RESULTADO
 Compronamos el correcto funcionamiento del script.
 
 > Paramos el servicio apache2 con `systemctl stop apache2` y ejecutamos `systemctl status apache2` para comprobar que está inactive.
@@ -226,7 +227,7 @@ Realiza un script llamado usuariosBloqueados.sh, que nos muestre un menú:
 
 5.- Salir
 
-###### DESARROLLO
+##### DESARROLLO
 
 > Usuarios Bloquedados
 
@@ -240,7 +241,7 @@ Realiza un script llamado usuariosBloqueados.sh, que nos muestre un menú:
 
 > Salir
 
-###### RESULTADO
+##### RESULTADO
 
 ---
 
@@ -254,9 +255,170 @@ Realiza un script llamado crearBorrarUsuarios.sh, que nos muestre un menú:
 
 3.- Salir 
 
-###### DESARROLLO
+##### DESARROLLO
 
-###### RESULTADO
+Explicación de todas las partes del script.
+
+En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los autores, la versión y la descripción de lo que hace el script.
+
+[![Encabezado.png](https://i.postimg.cc/JhS80ymh/Encabezado.png)](https://postimg.cc/HJ0RPkrG)
+
+Para que el script se pueda ejecutar, debe ser ejecutado por el usuario **/root**. Si no se es el usuario administrador, aparecerá un mensaje de denegación.
+
+> Función comprobar usuario /root
+
+[![tu-Ser-Root.png](https://i.postimg.cc/pTNNxgYh/tu-Ser-Root.png)](https://postimg.cc/p9BcJcSR)
+
+Mediante un `while read` sacamos los campos *nombreusuario, contraseña, nombre, apellido y correo electrónico*, obtenidos del archivo **usuario.csv** ubicado en el directorio /root.
+
+> Función **crearUsuarios()**
+
+[![crear-Usuarios.png](https://i.postimg.cc/WzWXpZLW/crear-Usuarios.png)](https://postimg.cc/zHhn0VfK)
+
+Mediante un `while read` y un separador de dos puntos `(IFS=':')` borramos el usuario y su directorio /home.
+
+> Función **borrarUsuario()**
+
+[![borrar-Usuarios.png](https://i.postimg.cc/L6mqBsgX/borrar-Usuarios.png)](https://postimg.cc/dDStJwBP)
+
+Con esta función menú mostramos en pantalla las opciones que da el script, y con el case, introducimos uno de los 3 números que nos da el menú y nos realiza la opción que hemos elegido.
+
+> Función **menu()**
+
+[![menu.png](https://i.postimg.cc/DZgh27vj/menu.png)](https://postimg.cc/vgckhF6f)
+
+> Bloque principal
+
+Llamamos a la función **tuSerRoot()** para que nos compruebe si somos o no usuario administrador. Luego, nos limpia la pantalla con un `clear` y ejecuta el menú.
+
+[![menu.png](https://i.postimg.cc/DZgh27vj/menu.png)](https://postimg.cc/vgckhF6f)
+
+
+##### RESULTADO
+
+Compronamos el correcto funcionamiento del script.
+
+> Ejecutamos el script y este nos muestra el menú.
+
+[![Ejecucion1.jpg](https://i.postimg.cc/D0PPjYcb/Ejecucion1.jpg)](https://postimg.cc/H8jMjzRp)
+
+
+Creamos usuario
+
+> Opción 1 creación de usuarios
+
+[![Ejecucion4.jpg](https://i.postimg.cc/3JwGQR8q/Ejecucion4.jpg)](https://postimg.cc/9zv0GcqP)
+
+Comprobamos que borra el usuario correctamente.
+
+
+> Opción 2, borrar usuario
+
+[![Ejecucion2.jpg](https://i.postimg.cc/Qx6pF7Ys/Ejecucion2.jpg)](https://postimg.cc/Ln1q7JM0)
+
+
+Salimos del script.
+
+> Opción 3 nos saca del script
+
+[![Ejecucion3.jpg](https://i.postimg.cc/6qWv36dy/Ejecucion3.jpg)](https://postimg.cc/MMLT3S3S)
+
+
+> * Código del script
+
+```bash
+#!/bin/bash
+# Authors: David R. , Ivana S. , Andrés R.
+# Versión: 1.0
+# Fecha: 18/04/2024
+# Descripción: Este script muestra un menú que permite crear y borrar usuarios del fichero "/root/usuarios.csv"
+clear
+
+##Parámetros/Variables
+
+
+##Funciones
+# Función para comprobar que el usuario que ejecuta el script sea root
+tuSerRoot()
+{
+    	if [ `id -u` != 0 ]; then
+      		echo "Este script solo puede ser ejecutado por el root."
+      	exit 1
+    	fi
+}
+
+# Crear usuario a partir del archivo usuarios.csv
+crearUsuarios() 
+ {
+	clear
+	echo "Creando usuarios..." 
+	# Lee el archivo CSV línea por línea
+  	 while IFS=':' read -r nombreUsuario contrasena nombre apellido email; do
+  	# Crea el usuario con opciones específicas
+        useradd -m -p "$(openssl passwd -1 "$contrasena")" -c "$nombre $apellido" -e "2024-06-30" "$nombreUsuario"
+        # Establece la contraseña usando chpasswd
+    		echo "$nombreUsuario:$contrasena" | chpasswd
+    	# Crea un archivo con el correo electrónico del usuario
+    		echo "$email" > "/home/$nombreUsuario/email.txt"    			
+ 	    	echo ""
+    	    	echo "Creación de usuarios completada."
+   	done < "/root/usuarios.csv"
+}
+
+# Función para borrar usuarios
+borrarUsuarios() 
+{
+ 	clear
+ 	echo "Borrando usuarios..."        
+        # Borrar el usuario y su directorio home
+        while IFS=':' read -r nombreUsuario _; do
+      	# Elimina el usuario y redirige posibles errores
+    		userdel -r "$nombreUsuario" 2> /dev/null
+     	    	echo ""
+            	echo "Borrado de usuarios completado." 
+        done < "/root/usuarios.csv" 
+}
+
+Función menú
+menu() 
+{
+	while  true;
+ 	do
+ 		echo ""
+  		echo " Script para crear o borrar usuarios"
+  		echo "====================================="
+  		echo "1.- Crear usuarios."
+  		echo "2.- Borrar usuarios."
+  		echo "3.- Salir"
+  		echo ""
+  		read -p "Indique una de las opciones anteriores: " opcion
+  		
+
+  	case $opcion in
+    		1)
+    			crearUsuarios ;;
+    		2) 
+    			borrarUsuarios ;;
+    		3) 	
+    			clear
+    			echo "Saliendo del script...";
+    			echo "";
+    			exit ;;
+    			
+    		*) 
+    			clear
+    			echo "Opción no válida. Por favor, seleccion 1, 2 o 3.";;
+    		
+  		esac
+	done
+}
+
+#Bloque principal
+tuSerRoot
+clear
+menu
+
+```
 
 ---
 
