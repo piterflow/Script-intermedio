@@ -271,7 +271,7 @@ Para que el script se pueda ejecutar, debe ser ejecutado por el usuario **/root*
 
 Mediante un `while read` sacamos los campos *nombreusuario, contraseña, nombre, apellido y correo electrónico*, obtenidos del archivo **usuario.csv** ubicado en el directorio /root.
 
-> Función **crearUsuarios()**
+> Función  **crearUsuarios()**
 
 [![crear-Usuarios.png](https://i.postimg.cc/WzWXpZLW/crear-Usuarios.png)](https://postimg.cc/zHhn0VfK)
 
@@ -283,11 +283,11 @@ Mediante un `while read` y un separador de dos puntos `(IFS=':')` borramos el us
 
 Con esta función menú mostramos en pantalla las opciones que da el script, y con el case, introducimos uno de los 3 números que nos da el menú y nos realiza la opción que hemos elegido.
 
-> Función **menu()**
+> Función  **menu()**
 
 [![menu.png](https://i.postimg.cc/DZgh27vj/menu.png)](https://postimg.cc/vgckhF6f)
 
-> Bloque principal
+> Bloque  principal
 
 Llamamos a la función **tuSerRoot()** para que nos compruebe si somos o no usuario administrador. Luego, nos limpia la pantalla con un `clear` y ejecuta el menú.
 
@@ -307,14 +307,14 @@ Creamos usuario
 
 > Opción 1 creación de usuarios
 
-[![Ejecucion4.jpg](https://i.postimg.cc/3JwGQR8q/Ejecucion4.jpg)](https://postimg.cc/9zv0GcqP)
+[![Ejercicio2.jpg](https://i.postimg.cc/3r0q3Ktt/Ejercicio2.jpg)](https://postimg.cc/s1ymcRdW)
 
-Comprobamos que borra el usuario correctamente.
 
+Borramos los usuarios.
 
 > Opción 2, borrar usuario
 
-[![Ejecucion2.jpg](https://i.postimg.cc/Qx6pF7Ys/Ejecucion2.jpg)](https://postimg.cc/Ln1q7JM0)
+[![ejecucion4.jpg](https://i.postimg.cc/rFr2ZG6F/ejecucion4.jpg)](https://postimg.cc/Ln2Wn16r)
 
 
 Salimos del script.
@@ -322,6 +322,14 @@ Salimos del script.
 > Opción 3 nos saca del script
 
 [![Ejecucion3.jpg](https://i.postimg.cc/6qWv36dy/Ejecucion3.jpg)](https://postimg.cc/MMLT3S3S)
+
+Comprobamos que los usuarios **joseXX** se han creado correctamente.
+
+[![comprobacion-Usuario.jpg](https://i.postimg.cc/MGKWLcbP/comprobacion-Usuario.jpg)](https://postimg.cc/RWy56ZYK)
+
+Comprobamos que los usuarios **joseXX** se han eliminado.
+
+[![Comprobacion-Borrado.jpg](https://i.postimg.cc/Y0gkFQM9/Comprobacion-Borrado.jpg)](https://postimg.cc/7Jxp8GC8)
 
 
 > * Código del script
@@ -431,7 +439,25 @@ a) El primer parámetro representa el nombre de un usuario genérico.
 
 b) El segundo parámetro representa el número de usuarios que quiere crearse.
 
-###### DESARROLLO
+##### DESARROLLO
+
+Explicación de todas las partes del script.
+
+En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los autores, la versión y la descripción de lo que hace el script.
+
+[![encabezado.png](https://i.postimg.cc/VLDk1BG9/encabezado.png)](https://postimg.cc/MvfSmR8X)
+
+Con esta función mostramos en pantalla la sintaxis de cómo se deben introducir los datos.
+
+> Función  **mostrarAyuda()**
+
+[![mostrar-Ayuda.png](https://i.postimg.cc/bw48N6Qn/mostrar-Ayuda.png)](https://postimg.cc/hX8N21Z4)
+
+Comprobamos los argumentos que se han introducido.
+
+> Función  **comprobarArgumento()**
+
+[![comprobar-Argumento.png](https://i.postimg.cc/nV3yhRxL/comprobar-Argumento.png)](https://postimg.cc/s1Z6nJvF)
 
 ###### RESULTADO
 
