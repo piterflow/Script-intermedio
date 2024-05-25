@@ -104,10 +104,9 @@ Vemos que no ha sido ejecutado por el /root y nos muestra un  mensaje por pantal
 
 [![denegar-Permiso.png](https://i.postimg.cc/SQwjckZb/denegar-Permiso.png)](https://postimg.cc/4nQJgkkW)
 
-
 > Función para comprobar si apache2 está activo
 
-La función **apacheActivo()** comprueba el estado del servidor con `systemctl status apache2`. En caso de estar **inactive**, nos redirige el error.
+La función **apacheActivo()** comprueba el estado del servidor con `systemctl status apache2`. En caso de estar **inactive**, nos redirirá al error.
 
 [![apache-Activo.png](https://i.postimg.cc/WzsWHQ8N/apache-Activo.png)](https://postimg.cc/G8SxBg6V)
 
@@ -234,22 +233,232 @@ Realiza un script llamado usuariosBloqueados.sh, que nos muestre un menú:
 
 ##### DESARROLLO
 
+Explicación de todas las partes del script.
+
+En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los autores, la versión y la descripción de lo que hace el script.
+
+[![Cabecera.png](https://i.postimg.cc/SsqvQrcV/Cabecera.png)](https://postimg.cc/4KL5BpLh)
+
+Para que el script se pueda ejecutar, debe ser ejecutado por el usuario **/root**. Si no se es el usuario administrador, aparecerá un mensaje de denegación.
+
+> Función  **tuSerRoot()**
+
+[![Tuser-Root.png](https://i.postimg.cc/prcGZM41/Tuser-Root.png)](https://postimg.cc/FkcVr89j)
+
+Vemos que no ha sido ejecutado por el /root y nos muestra un  mensaje por pantalla.
+
 > Usuarios Bloquedados
 
-* Funsión `usuariosBloqueados()`.
+Función `mostrarusuariosBloqueados()`. Esta función muestra los usuarios bloqueados del sistema. Extrae y guarda en un archivo los usuarios bloqueados, filtra y guarda en otro archivo los usuarios del sistema con UID entre 1000 y 2000, compara ambos archivos mostrando los usuarios que están bloqueados y elimina los archivos temporales.
+  
+[![Usuarios-Bloqueados.png](https://i.postimg.cc/Z5pH9NbQ/Usuarios-Bloqueados.png)](https://postimg.cc/v48fkc67)
 
 > Bloquear un usuario
 
+La función **bloquearUsuario()** lo que hace es solicitar el nombre de usuario con el 'read -p' , verificando que éste existe. Sino fuera el caso, saldría un mensaje de Error. El usuario existente se bloqueará con el comando `usermod`.
+
+[![Bloquear-Usuario.png](https://i.postimg.cc/5yzgwQ5j/Bloquear-Usuario.png)](https://postimg.cc/m1b74D5G)
+
 > Desbloquear usuario
+
+En estructura, esta función es exactamente igual que la anterior, lo único que cambia es la opcíon del comando ùsermod`, que en este caso es "U".
+
+[![Desbloquear-Usuario.png](https://i.postimg.cc/HsC4qx44/Desbloquear-Usuario.png)](https://postimg.cc/8st6WTYj)
 
 > Cerrar sesión usuario
 
-> Salir
+Como en las funciones anteriores introduciremos el nombre de un usuario, que si no existiese nos devolvería al menú, sino continuaría para obtener el tiempo que lleva inactivo. Si la inactividad hubiera superado los 30 minutos, preguntará si se debe cerrar la sesión. Si elige la opción "s", la sesión se cerrará con `pkill`.
+
+[![Tiempo-Inactividad.png](https://i.postimg.cc/SRbCbT8N/Tiempo-Inactividad.png)](https://postimg.cc/jwvLzhZG)
+
+> Bloque principal
+
+Después de limpiar la pantalla y verificar que el usuario sea root, se eleigirá una opción del menú desplegado. Dependiendo de la opción seleccionada, se llamará a la función correspondiente. El ciclo while asegura que el menú se muestre repetidamente hasta que se seleccione la opción de salir.
+
+[![Menu.png](https://i.postimg.cc/B6HPpTyW/Menu.png)](https://postimg.cc/phVdXFRk)
 
 ##### RESULTADO
 
----
+Para realizar este script, lo primero que hemos hecho es abrir otro usuario para poder comprobar el tiempo de inactividad, que está en 30 minutos. Para ello utilizaremos el comando `who -u`.
 
+[![Usuarios-Activos.png](https://i.postimg.cc/9FJRLFxf/Usuarios-Activos.png)](https://postimg.cc/Whq13jcR)
+
+Una vez realizada esta acción, hemos procedido a realizar el menú del script. Primero hemos seleccionado la opción 1, la de conocer los usuarios bloqueados y tal como muestra la imágen de abajo, en ese momento estaban bloqueados 2 usuarios: Heidi y Andrés2
+
+[![Bloqueado-pc.png](https://i.postimg.cc/q7G93SJW/Bloqueado-pc.png)](https://postimg.cc/7CfsvBTN)
+
+Posteriormente, con la elección de la opción 2, hemos bloqueado al un usuario: Andrés1 y lo verificamos volviendo a utilizar la opción 1 del menú, la de `usuarios bloqueados`,
+
+[![Usuarios-Bloqueados.png](https://i.postimg.cc/gknmPzzj/Usuarios-Bloqueados.png)](https://postimg.cc/hfWHLq7R)
+[![Usuarios-Bloqueados2.png](https://i.postimg.cc/76K8pcjS/Usuarios-Bloqueados2.png)](https://postimg.cc/nj9PmdFL)
+
+Ahora desbloquearemos a un usuario (opción 3). El mismo que hemos creado. Un mensaje nos confirma la acción.
+
+[![Desbloquear-Usuario.png](https://i.postimg.cc/kGNj0t2z/Desbloquear-Usuario.png)](https://postimg.cc/JHncJ0c5)
+
+La opción de `cerrar usuario` lleva unas cuantas acciones que se certificarán con distintas imágenes. 
+Lo primero que vamos a hacer es confirmar que tenemeos un segundo usuario abierto.
+
+[![Usuario-Abierto.png](https://i.postimg.cc/G2GzDsxt/Usuario-Abierto.png)](https://postimg.cc/TL2rM1Sv)
+
+Si elegimos la opción 4 antes de que pasen los 30 minutos establecidos en el script, nos devolverá al menú escribiéndonos un mensaje diciendo que el usuario está activo.
+
+[![Usuario-Activo.png](https://i.postimg.cc/KzSDm8h2/Usuario-Activo.png)](https://postimg.cc/QBmTbsM4)
+
+Esperamos que transcurra la media hora y procedemos a elegir de nuevo la opción 4 del menú. En este caso nos preguntará si estamos seguro de querer cerrar la sesión, y le diremos que sí. 
+
+[![Certificar-Cierre-Usuario.png](https://i.postimg.cc/vHq7czwX/Certificar-Cierre-Usuario.png)](https://postimg.cc/nCm9WqzQ)
+
+Por último haremos un `last Pedro`, que nos señalará que el usuario Pedro ha terminado (killed).
+
+[![Killed-Usuario.png](https://i.postimg.cc/ncyzRj4p/Killed-Usuario.png)](https://postimg.cc/F7xN1KCB)
+
+
+> * Código del script
+
+```bash
+#!/bin/bash
+# Author: David R. , Ivana S. , Andrés R.
+# Versión: 2.0
+# Fecha: 25/05/2024
+# Descripción: Este script permite realizar tareas de administración de usuarios tales como: Ver los usuarios bloqueados, bloquear un usuario, desbloquear un usuario o cerrar su sesión.
+
+
+## FUNCIONES
+
+# Función para comprobar que el script sea ejecutado por root
+tuSerRoot()
+{
+    if [ $(id -u) != 0 ]; then
+      echo "Este script solo puede ser ejecutado por el root."
+      exit 1
+    fi
+}
+
+
+# Función para mostrar los usuarios bloqueados
+mostrarUsuariosBloqueados() {
+  # Obtener sólmente el nombre de todos los usuarios bloqueados del sistema
+  passwd -S -a | grep " L " | cut -d " " -f1 > allUsersBlocked.txt
+  # Obtener usuarios con UID entre 1000 y 2000 y lo guardamos en un archivo temporal
+  awk -F ':' '$3 >= 1000 && $3 <= 2000 { print $1 }' /etc/passwd > allSystemUsers.txt
+  # Comparamos y vemos de todos los usuarios que hemos creado están bloqueados
+  usuariosBloqueados=$(grep -Fxf allSystemUsers.txt allUsersBlocked.txt)
+  
+
+  # Si hay usuarios bloqueados, mostrarlos
+  if [ -n "$usuariosBloqueados" ]; then
+    clear
+    echo "Usuarios bloqueados:"
+    for usuario in $usuariosBloqueados; do
+      echo "- $usuario"
+    done
+  else
+    clear
+    echo "No hay usuarios bloqueados."
+  fi
+
+
+  rm allSystemUsers.txt allUsersBlocked.txt
+}
+
+# Función para bloquear un usuario
+bloquearUsuario() {
+  echo ""
+  read -p "Introduce el nombre del usuario: " usuario
+  if [ -z "$usuario" ]; then
+    echo "Error: No se ha introducido un nombre de usuario válido."
+    exit 1
+  fi
+  sudo usermod -L $usuario
+  clear
+  echo "Usuario '"$usuario"' bloqueado correctamente"
+}
+
+# Función para desbloquear un usuario
+desbloquearUsuario() {
+  echo ""
+  read -p "Introduce el nombre del usuario: " usuario
+  if [ -z "$usuario" ]; then
+    echo "Error: No se ha introducido un nombre de usuario válido."
+    exit 1
+  fi
+  sudo usermod -U $usuario
+  clear
+  echo "Usuario '$usuario' desbloqueado correctamente"
+}
+
+# Función para cerrar la sesión de un usuario inactivo
+cerrarSesionUsuario() {
+  echo ""
+  # Solicitar nombre de usuario
+  read -p "Introduzca el nombre de usuario a comprobar: " usuario
+
+  # Comprobar si el usuario existe
+  if [ -z "$usuario" ]; then
+    echo "Error: No se ha introducido un nombre de usuario válido."
+    exit 1
+  fi
+
+  # Obtener el tiempo de inactividad del usuario
+  tiempoInactivo=$(who -u $usuario | awk '{ print $7 }')
+  # Convertir el tiempo de inactividad a segundos
+  tiempoInactivoSegundos=$(echo "$tiempoInactivo" | cut -d':' -f1,2 | awk '{total = $1 * 3600 + $2 * 60; print total}')
+
+  # Comprobar si el tiempo de inactividad es superior a 30 minutos
+  if [ $tiempoInactivoSegundos -gt 0 ]; then
+    clear
+    read -p "El usuario '$usuario' lleva más de 30 minutos inactivo. ¿Desea cerrar su sesión? (s/n): " cerrarSesion
+
+    if [ "$cerrarSesion" = "s" ]; then
+      pkill -KILL -u $usuario
+      echo ""
+      echo "Sesión del usuario '$usuario' cerrada."
+    elif [ "$cerrarSesion" = "n" ]; then
+      echo ""
+      echo "La sesión del usuario '$usuario' no se ha cerrado."
+    else
+      echo ""
+      echo "Opción no válida"
+      exit 1
+    fi
+  else
+    clear
+    echo "El usuario '$usuario' está activo."
+  fi
+}
+
+
+## BLOQUE PRINCIPAL
+
+# Mostrar menú y ejecutar la opción seleccionada
+clear
+tuSerRoot
+while [ true ]; do
+  echo "Menú principal:"
+  echo "==============="
+  echo ""
+  echo "1. Usuarios Bloqueados"
+  echo "2. Bloquear un usuario"
+  echo "3. Desbloquear usuario"
+  echo "4. Cerrar sesión usuario"
+  echo "5. Salir"
+  echo ""
+  read -p "Selecciona una opción: " opcion
+
+  case $opcion in
+    1) mostrarUsuariosBloqueados ;;
+    2) bloquearUsuario ;;
+    3) desbloquearUsuario ;;
+    4) cerrarSesionUsuario ;;
+    5) exit ;;
+    *) clear && echo "Opción no válida";;
+  esac
+  echo ""
+done
+
+```
+---
 
 #### Ejercicio3.
 
@@ -495,6 +704,10 @@ Al iniciar sesión por primera vez, el sistema obliga al usuario a cambiar su co
 
 [![bloque-Principal.png](https://i.postimg.cc/HW3tGFg6/bloque-Principal.png)](https://postimg.cc/jCwfPgCf)
 
+> Problema
+
+En este script nos surgió un problema en la **función de borrarUsuario()**, y es que no se borrarban los usuarios. Después de mirar, volver a mirar y cambiar en varias ocaisones esa parte del script, nos dimos cuenta que nos faltaba un guión para especificar un campo del usuario, sin el cuál no podía ejecutarse el comando.
+
 
 ###### RESULTADO
 
@@ -507,6 +720,7 @@ Da error cuando no proporcionamos los parámetros y mostramos un ejemplo para il
 En el día de hoy se han creado estos usuarios, los cuales se han archivado en el archivo usuariosCreados del 25 de mayo de 2024.
 
 [![Ejecucion2.jpg](https://i.postimg.cc/26yS1q1b/Ejecucion2.jpg)](https://postimg.cc/BLW0ync4)
+
 
 > * Código del script.
 
@@ -645,7 +859,7 @@ Finalmente, nos dará el resultado  de una lista con los usuarios que coinciden 
 
 [![Resultado.png](https://i.postimg.cc/WpYks4vJ/Resultado.png)](https://postimg.cc/0rmQfPr8)
 
-
+> * Código del script.
 ```bash
 # Author: David R. , Ivana S. , Andrés R.
 # Versión: 1.0
