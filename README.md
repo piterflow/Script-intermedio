@@ -92,7 +92,7 @@ En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los
 
 Para que el script se pueda ejecutar, debe ser ejecutado por el usuario **/root**. Si no se es el usuario administrador, aparecerá un mensaje de denegación.
 
-> Función comprobar usuario /root
+> Función  **tuSerRoot()**
 
 [![tuser-Root.png](https://i.postimg.cc/GpS597bz/tuser-Root.png)](https://postimg.cc/v1fzNvg6)
 
@@ -122,7 +122,7 @@ La función **comprobarApache()** consiste en un bucle que verifica cada 60 segu
 [![bucle.png](https://i.postimg.cc/Cx4jvztq/bucle.png)](https://postimg.cc/jDLw2dRx)
 
 
-> Bloque princial
+> Bloque  princial
 
 En el bloque principal, llamamos a la función `TuSerRoot()`, que comprueba si el usuario es superusuario o no. Para que aparezca en pantalla el mensaje *Apache corriendo correctamente*, en caso de que esté *inactive* (Apache inactivo. Reiniciando Apache) y una vez reiniciado (Apache reiniciado correctamente). Utilizamos la función `comprobarApache &` (se ejecuta en segundo plano).
 
@@ -245,6 +245,7 @@ Realiza un script llamado usuariosBloqueados.sh, que nos muestre un menú:
 
 ---
 
+
 #### Ejercicio3.
 
 Realiza un script llamado crearBorrarUsuarios.sh, que nos muestre un menú:
@@ -271,19 +272,19 @@ Para que el script se pueda ejecutar, debe ser ejecutado por el usuario **/root*
 
 Mediante un `while read` sacamos los campos *nombreusuario, contraseña, nombre, apellido y correo electrónico*, obtenidos del archivo **usuario.csv** ubicado en el directorio /root.
 
-> Función  **crearUsuarios()**
+> Función  para crear usuarios
 
 [![crear-Usuarios.png](https://i.postimg.cc/WzWXpZLW/crear-Usuarios.png)](https://postimg.cc/zHhn0VfK)
 
 Mediante un `while read` y un separador de dos puntos `(IFS=':')` borramos el usuario y su directorio /home.
 
-> Función **borrarUsuario()**
+> Función para borrar usuarios
 
 [![borrar-Usuarios.png](https://i.postimg.cc/L6mqBsgX/borrar-Usuarios.png)](https://postimg.cc/dDStJwBP)
 
 Con esta función menú mostramos en pantalla las opciones que da el script, y con el case, introducimos uno de los 3 números que nos da el menú y nos realiza la opción que hemos elegido.
 
-> Función  **menu()**
+> Función  menu
 
 [![menu.png](https://i.postimg.cc/DZgh27vj/menu.png)](https://postimg.cc/vgckhF6f)
 
@@ -449,17 +450,130 @@ En la siguiente imagen, vemos la cabecera que nos indica el tipo de archivo, los
 
 Con esta función mostramos en pantalla la sintaxis de cómo se deben introducir los datos.
 
-> Función  **mostrarAyuda()**
+> Función  mostar ayuda
 
 [![mostrar-Ayuda.png](https://i.postimg.cc/bw48N6Qn/mostrar-Ayuda.png)](https://postimg.cc/hX8N21Z4)
 
 Comprobamos los argumentos que se han introducido.
 
-> Función  **comprobarArgumento()**
+> Función  comprobar argumento
 
 [![comprobar-Argumento.png](https://i.postimg.cc/nV3yhRxL/comprobar-Argumento.png)](https://postimg.cc/s1Z6nJvF)
 
+Las siguientes variables lo que nos hace es que se guardan los parámetros 1 y 2 en un archivo con la fecha del día en que se ejecuta.
+
+Cada vez que se crea un usuario nuevo, se creará un archivo nuevo con la fecha en la que se ejecuta.
+
+[![variables.png](https://i.postimg.cc/SQLvnZp9/variables.png)](https://postimg.cc/V56RTWvs)
+
+La función validarNumero se encarga de limitar la creación de usuarios cuando se le pasa un parámetro para crear X cantidad de ellos, asegurándose de que no se creen más de 9.
+
+> Función  validar número
+
+[validar-Numero.png](https://postimg.cc/34wgs3Kf)
+
+Cuando se crea un usuario, se le asigna una contraseña inicial que es igual a su nombre.
+
+Al iniciar sesión por primera vez, el sistema obliga al usuario a cambiar su contraseña inicial por una nueva.
+
+> Bloque principal
+
+[![bloque-Principal.png](https://i.postimg.cc/HW3tGFg6/bloque-Principal.png)](https://postimg.cc/jCwfPgCf)
+
+
 ###### RESULTADO
+
+Da error cuando no proporcionamos los parámetros y mostramos un ejemplo para ilustrar cómo se hace.
+
+[![Ejecucion1.jpg](https://i.postimg.cc/Jhmyz43Z/Ejecucion1.jpg)](https://postimg.cc/QF4N6Dyd)
+
+> Lo ejecutamos correctamente.
+
+En el día de hoy se han creado estos usuarios, los cuales se han archivado en el archivo usuariosCreados del 25 de mayo de 2024.
+
+[![Ejecucion2.jpg](https://i.postimg.cc/26yS1q1b/Ejecucion2.jpg)](https://postimg.cc/BLW0ync4)
+
+> * Código del script.
+
+```bash
+#!/bin/bash
+# Author: David R. , Ivana S. , Andrés R.
+# Versión: 1.0
+# Fecha: 18/04/2024
+# Descripción: Este script crea usuarios masivamente indicando un nombre genérico y la cantidad total de usuarios que se quieren crear.
+# Parámetros
+
+clear
+# Funciones
+
+tuSerRoot() {
+   if [ "$(id -u)" != 0 ]; then
+        echo "Este script solo puede ser ejecutado por el root."
+        exit 1
+   fi
+}
+
+mostrarAyuda() {
+    echo ""
+    echo " Solicitud incorrecta."
+    echo ""
+    echo " EJEMPLO: sh $0 alumno 3"
+    echo "-Esto creará 3 usuarios llamados alumno y enumerados correlativamente (alumno1, alumno2, alumno3)-"
+    echo ""
+    exit 1
+}
+
+comprobarArgumentos() {
+    if [ "$#" -ne 2 ]; then
+        mostrarAyuda
+    fi
+}
+nombreGenerico=$1
+cantTotal=$2
+fechaActual=$(date +%Y-%m-%d)
+archivoUsuarios="usuariosCreados.$fechaActual.tmp"
+
+validarNumero() 
+{
+    case $1 in
+        ''|*[!0-9]*)
+            echo "El segundo argumento debe ser un número."
+            mostrarAyuda
+            ;;
+    esac
+}
+# Bloque principal
+tuSerRoot
+comprobarArgumentos "$@"
+validarNumero "$cantTotal"
+
+# Inicializar variables
+i=1
+usuarios="" # Inicializar la variable usuarios
+
+# Crear usuarios
+	while [ $i -le $cantTotal ]; do
+    	usuario="${nombreGenerico}${i}"
+    
+    	# Crear el usuario y asignar la misma contraseña que el nombre de usuario
+    	useradd -m -s /bin/bash "$usuario"
+    		echo "$usuario:$usuario" | chpasswd
+    
+    # Obligar al usuario a cambiar la contraseña al primer inicio de sesión
+    	chage -d 0 "$usuario"
+   		echo "Creando usuario '$usuario'..."
+   		echo ""
+    		echo "$usuario:$usuario" >> "$archivoUsuarios"
+    	i=$((i + 1))
+	done
+
+# Mostrar y limpiar el archivo temporal
+	cat "$archivoUsuarios"
+	echo ""
+	echo " Usuarios añadidos y contraseñas asignadas."
+	echo " Guardados en el archivo $archivoUsuarios"
+
+```
 
 ---
 
