@@ -261,7 +261,7 @@ La función **bloquearUsuario()** lo que hace es solicitar el nombre de usuario 
 
 > Desbloquear usuario
 
-En estructura, esta función es exactamente igual que la anterior, lo único que cambia es la opcíon del comando ùsermod`, que en este caso es "U".
+En estructura, esta función es exactamente igual que la anterior, lo único que cambia es la opcíon del comando `usermod`, que en este caso es "U".
 
 [![Desbloquear-Usuario.png](https://i.postimg.cc/HsC4qx44/Desbloquear-Usuario.png)](https://postimg.cc/8st6WTYj)
 
