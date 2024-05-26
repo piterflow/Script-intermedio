@@ -273,7 +273,7 @@ Como en las funciones anteriores introduciremos el nombre de un usuario, que si 
 
 > Bloque principal
 
-Después de limpiar la pantalla y verificar que el usuario sea root, se eleigirá una opción del menú desplegado. Dependiendo de la opción seleccionada, se llamará a la función correspondiente. El ciclo while asegura que el menú se muestre repetidamente hasta que se seleccione la opción de salir.
+Después de limpiar la pantalla y verificar que el usuario sea root, se elegirá una opción del menú desplegado. Dependiendo de la opción seleccionada, se llamará a la función correspondiente. El ciclo while asegura que el menú se muestre repetidamente hasta que se seleccione la opción de salir.
 
 [![Menu.png](https://i.postimg.cc/B6HPpTyW/Menu.png)](https://postimg.cc/phVdXFRk)
 
@@ -297,11 +297,11 @@ Ahora desbloquearemos a un usuario (opción 3). El mismo que hemos creado. Un me
 [![Desbloquear-Usuario.png](https://i.postimg.cc/kGNj0t2z/Desbloquear-Usuario.png)](https://postimg.cc/JHncJ0c5)
 
 La opción de `cerrar usuario` lleva unas cuantas acciones que se certificarán con distintas imágenes. 
-Lo primero que vamos a hacer es confirmar que tenemeos un segundo usuario abierto.
+Lo primero que vamos a hacer es confirmar que tenemos un segundo usuario abierto.
 
 [![Usuario-Abierto.png](https://i.postimg.cc/G2GzDsxt/Usuario-Abierto.png)](https://postimg.cc/TL2rM1Sv)
 
-Si elegimos la opción 4 antes de que pasen los 30 minutos establecidos en el script, nos devolverá al menú escribiéndonos un mensaje diciendo que el usuario está activo.
+Si elegimos la opción 4 antes de que pasen los 30 minutos establecidos en el script, nos devolverá al menú escribiéndonos un mensaje en el que se dice que el usuario está activo.
 
 [![Usuario-Activo.png](https://i.postimg.cc/KzSDm8h2/Usuario-Activo.png)](https://postimg.cc/QBmTbsM4)
 
@@ -309,7 +309,7 @@ Esperamos que transcurra la media hora y procedemos a elegir de nuevo la opción
 
 [![Certificar-Cierre-Usuario.png](https://i.postimg.cc/vHq7czwX/Certificar-Cierre-Usuario.png)](https://postimg.cc/nCm9WqzQ)
 
-Por último haremos un `last Pedro`, que nos señalará que el usuario Pedro ha terminado (killed).
+Por último haremos un `last Pedro`, que nos señalará que el usuario Pedro ha terminado (killed) su sesión.
 
 [![Killed-Usuario.png](https://i.postimg.cc/ncyzRj4p/Killed-Usuario.png)](https://postimg.cc/F7xN1KCB)
 
@@ -500,7 +500,7 @@ Mediante un `while read` y un separador de dos puntos `(IFS=':')` borramos el us
 
 Con esta función menú mostramos en pantalla las opciones que da el script, y con el case, introducimos uno de los 3 números que nos da el menú y nos realiza la opción que hemos elegido.
 
-> Función  menu
+> Función  menú
 
 [![menu.png](https://i.postimg.cc/DZgh27vj/menu.png)](https://postimg.cc/vgckhF6f)
 
@@ -513,9 +513,9 @@ Llamamos a la función **tuSerRoot()** para que nos compruebe si somos o no usua
 
 ##### RESULTADO
 
-Compronamos el correcto funcionamiento del script.
+Comprobamos el correcto funcionamiento del script.
 
-> Ejecutamos el script y este nos muestra el menú.
+> Ejecutamos el script y éste nos muestra el menú.
 
 [![Ejecucion1.jpg](https://i.postimg.cc/D0PPjYcb/Ejecucion1.jpg)](https://postimg.cc/H8jMjzRp)
 
@@ -652,11 +652,11 @@ menu
 ###### ENUNCIADO
 
 Crea en un script llamado crearUsuarios.sh que permita crear usuarios de forma automática. Indicaciones: 
-1.- Al script se le pasa dos parámetros:
+1.- Al script se le pasan dos parámetros:
 
 a) El primer parámetro representa el nombre de un usuario genérico.
 
-b) El segundo parámetro representa el número de usuarios que quiere crearse.
+b) El segundo parámetro representa el número de usuarios que  queremos que se creen.
 
 ##### DESARROLLO
 
@@ -684,9 +684,9 @@ Comprobamos los argumentos que se han introducido.
 
 [![comprobar-Argumento.png](https://i.postimg.cc/nV3yhRxL/comprobar-Argumento.png)](https://postimg.cc/s1Z6nJvF)
 
-Las siguientes variables lo que nos hace es que se guardan los parámetros 1 y 2 en un archivo con la fecha del día en que se ejecuta.
+Las siguientes variables lo que nos hace es que se guarden los parámetros 1 y 2 en un archivo con la fecha del día en que se ejecuta.
 
-Cada vez que se crea un usuario nuevo, se creará un archivo nuevo con la fecha en la que se ejecuta.
+Cada vez que se crea un usuario nuevo, éste entrará a formar parte del archivo del día en el que se crea.
 
 [![variables.png](https://i.postimg.cc/SQLvnZp9/variables.png)](https://postimg.cc/V56RTWvs)
 
@@ -706,7 +706,7 @@ Al iniciar sesión por primera vez, el sistema obliga al usuario a cambiar su co
 
 > Problema
 
-En este script nos surgió un problema en la **función de borrarUsuario()**, y es que no se borrarban los usuarios. Después de mirar, volver a mirar y cambiar en varias ocaisones esa parte del script, nos dimos cuenta que nos faltaba un guión para especificar un campo del usuario, sin el cuál no podía ejecutarse el comando.
+En este script nos surgió un problema en la **función de borrarUsuario()**, y es que no se borrarban los usuarios. Después de mirar, volver a mirar y cambiar en varias ocaisones esa parte del script, nos dimos cuenta que sólo nos faltaba un guión para especificar un campo del usuario, sin el cuál no podía ejecutarse el comando.
 
 
 ###### RESULTADO
